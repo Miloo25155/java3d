@@ -37,7 +37,7 @@ public class Player extends Entity{
 		float dz = (float) (distance * Math.cos(Math.toRadians(super.getRotY())));
 		super.increasePosition(dx, 0, dz);
 		
-		upwardSpeed -= GRAVITY * delta;
+		//upwardSpeed -= GRAVITY * delta;
 		super.increasePosition(0, upwardSpeed * delta, 0);
 		
 		if(super.getPosition().y < TERRAIN_HEIGHT) {
