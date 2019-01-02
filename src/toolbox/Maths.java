@@ -30,4 +30,8 @@ public class Maths {
 		return viewMatrix;
 	}
 	
+	public static float Lerp(float source, float target, float f) {
+		return source + f * (target-source);
+	}
+	
 }

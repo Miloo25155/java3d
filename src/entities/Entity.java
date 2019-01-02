@@ -3,6 +3,7 @@ package entities;
 import org.lwjgl.util.vector.Vector3f;
 
 import models.TexturedModel;
+import toolbox.Maths;
 
 public class Entity {
 
@@ -11,6 +12,10 @@ public class Entity {
 	private float rotX, rotY, rotZ;
 	private float scale;
 	
+	private float targetPosYOffset;
+	
+	private Camera camera;
+	
 	public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
 		this.model = model;
 		this.position = position;
@@ -18,6 +23,8 @@ public class Entity {
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 		this.scale = scale;
+		
+		this.targetPosYOffset = scale;
 	}
 	
 	public void increasePosition(float dx, float dy, float dz) {
@@ -28,8 +35,19 @@ public class Entity {
 	
 	public void increaseRotation(float dx, float dy, float dz) {
 		this.rotX+= dx;
+		this.rotX = this.rotX % 360f;
+		
 		this.rotY += dy;
+		this.rotY = this.rotY % 360f;
+		
 		this.rotZ += dz;
+		this.rotZ = this.rotZ % 360f;
+	}
+	
+	public void setTargetRotation(float targetRotX, float targetRotY, float targetRotZ, float f) {
+		this.rotX = Maths.Lerp(this.rotX, targetRotX, f);
+		this.rotY = Maths.Lerp(this.rotY, targetRotY, f);
+		this.rotZ = Maths.Lerp(this.rotZ, targetRotZ, f);
 	}
 	
 
@@ -80,8 +98,21 @@ public class Entity {
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
-	
-	
-	
+
+	public float getTargetPosYOffset() {
+		return targetPosYOffset;
+	}
+
+	public void setTargetPosYOffset(float targetPosYOffset) {
+		this.targetPosYOffset = targetPosYOffset;
+	}
+
+	public Camera getCamera() {
+		return camera;
+	}
+
+	public void setCamera(Camera camera) {
+		this.camera = camera;
+	}
 	
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -80,7 +81,8 @@ public class MainGameLoop {
 		
 		Player player = new Player(playerTexturedModel, new Vector3f(200, 7, 100), 0, 0, 0, 1f);
 		
-		Camera camera = new Camera(new Vector3f(200, 10, 200), 5, 0, 0);
+		//Camera camera = new Camera(new Vector3f(200, 10, 200), 5, 0, 0);
+		Camera camera = new Camera(player);
 		Light light = new Light(new Vector3f(0, 2000, 1000), new Vector3f(1,1,1));
 		
 		ModelTexture terrainTexture = new ModelTexture(loader.loadTexture("grass"));
@@ -102,6 +104,10 @@ public class MainGameLoop {
 			}
 			
 			DisplayManager.updateDisplay();
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+				break;
+			}
 		}
 		
 		renderer.cleanUp();

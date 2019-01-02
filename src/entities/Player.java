@@ -9,6 +9,7 @@ import renderEngine.DisplayManager;
 public class Player extends Entity{
 
 	private static final float RUN_SPEED = 20;
+	private static final float LATERAL_SPEED = 12;
 	private static final float TURN_SPEED = 160;
 	private static float GRAVITY = 50;
 	private static float JUMP_POWER = 25;
@@ -16,7 +17,8 @@ public class Player extends Entity{
 	private static final float TERRAIN_HEIGHT = 7;
 	
 	private float currentSpeed = 0;
-	private float currentTurnSpeed;
+	private float lateralSpeed = 0;
+	//private float currentTurnSpeed;
 	private float upwardSpeed;
 	
 	private boolean isJumping = false;
@@ -29,12 +31,16 @@ public class Player extends Entity{
 	public void move() {
 		checkInputs();
 		float delta = DisplayManager.getFrameTimeSeconds();
-		super.increaseRotation(0, currentTurnSpeed * delta,  0);
+		
+		//float deltaRot = super.getCamera().getAngleAroundTarget();// - this.getRotY();
+		//super.increaseRotation(0, TURN_SPEED * delta,  0);
+		//super.setTargetRotation(this.getRotX(), deltaRot, this.getRotZ(), currentSpeed * delta);
 		
 		float distance = currentSpeed * delta;
+		float lateralDistance = lateralSpeed * delta;
 		
-		float dx = (float) (distance * Math.sin(Math.toRadians(super.getRotY())));
-		float dz = (float) (distance * Math.cos(Math.toRadians(super.getRotY())));
+		float dx = (float) (distance * Math.sin(Math.toRadians(super.getRotY())) + (lateralDistance * Math.cos(Math.toRadians(super.getRotY()))));
+		float dz = (float) (distance * Math.cos(Math.toRadians(super.getRotY())) + (lateralDistance * Math.sin(Math.toRadians(super.getRotY()))));
 		super.increasePosition(dx, 0, dz);
 		
 		upwardSpeed -= GRAVITY * delta;
@@ -66,13 +72,16 @@ public class Player extends Entity{
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_Q)) {
-			currentTurnSpeed = TURN_SPEED;
+			lateralSpeed = LATERAL_SPEED;
+			//currentTurnSpeed = TURN_SPEED;
 		}
 		else if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			currentTurnSpeed = -TURN_SPEED;
+			lateralSpeed = -LATERAL_SPEED;
+			//currentTurnSpeed = -TURN_SPEED;
 		} 
 		else {
-			currentTurnSpeed = 0;
+			lateralSpeed = 0;
+			//currentTurnSpeed = 0;
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
