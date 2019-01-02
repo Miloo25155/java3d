@@ -13,7 +13,7 @@ public class Player extends Entity{
 	private static float GRAVITY = 50;
 	private static float JUMP_POWER = 25;
 	
-	private static final float TERRAIN_HEIGHT = 0;
+	private static final float TERRAIN_HEIGHT = 7;
 	
 	private float currentSpeed = 0;
 	private float currentTurnSpeed;
@@ -37,7 +37,7 @@ public class Player extends Entity{
 		float dz = (float) (distance * Math.cos(Math.toRadians(super.getRotY())));
 		super.increasePosition(dx, 0, dz);
 		
-		//upwardSpeed -= GRAVITY * delta;
+		upwardSpeed -= GRAVITY * delta;
 		super.increasePosition(0, upwardSpeed * delta, 0);
 		
 		if(super.getPosition().y < TERRAIN_HEIGHT) {
