@@ -74,14 +74,13 @@ public class MainGameLoop {
 			entities.add(entity2);
 		}
 		
-		ModelData playerData = OBJFileLoader.loadOBJ("lowPolyEagle");
+		ModelData playerData = OBJFileLoader.loadOBJ("person");
 		RawModel playerModel = loader.loadToVAO(playerData.getVertices(), playerData.getTextureCoords(), playerData.getNormals(), playerData.getIndices());
-		ModelTexture playerTexture = new ModelTexture(loader.loadTexture("eagleColor"));	
+		ModelTexture playerTexture = new ModelTexture(loader.loadTexture("playerTexture"));	
 		TexturedModel playerTexturedModel = new TexturedModel(playerModel, playerTexture);
 		
-		Player player = new Player(playerTexturedModel, new Vector3f(200, 7, 100), 0, 0, 0, 1f);
+		Player player = new Player(playerTexturedModel, new Vector3f(200, 0, 100), 0, 0, 0, 0.2f);
 		
-		//Camera camera = new Camera(new Vector3f(200, 10, 200), 5, 0, 0);
 		Camera camera = new Camera(player);
 		Light light = new Light(new Vector3f(0, 2000, 1000), new Vector3f(1,1,1));
 		

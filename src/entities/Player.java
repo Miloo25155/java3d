@@ -14,7 +14,7 @@ public class Player extends Entity{
 	private static float GRAVITY = 50;
 	private static float JUMP_POWER = 25;
 	
-	private static final float TERRAIN_HEIGHT = 7;
+	private static final float TERRAIN_HEIGHT = 0;
 	
 	private float currentSpeed = 0;
 	private float lateralSpeed = 0;
@@ -23,9 +23,12 @@ public class Player extends Entity{
 	
 	private boolean isJumping = false;
 	
+	public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, float offsetRotY) {
+		super(model, position, rotX, rotY, rotZ, scale, offsetRotY);
+	}
+	
 	public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
 		super(model, position, rotX, rotY, rotZ, scale);
-		
 	}
 	
 	public void move() {
@@ -33,8 +36,13 @@ public class Player extends Entity{
 		float delta = DisplayManager.getFrameTimeSeconds();
 		
 		//float deltaRot = super.getCamera().getAngleAroundTarget();// - this.getRotY();
-		//super.increaseRotation(0, TURN_SPEED * delta,  0);
-		//super.setTargetRotation(this.getRotX(), deltaRot, this.getRotZ(), currentSpeed * delta);
+		//super.increaseRotation(0, TURN_SPEED * delta * 1f,  0);
+		float cameraAngleAroundPlayer = super.getCamera().getAngleAroundTarget();
+		if(cameraAngleAroundPlayer < 0 && currentSpeed > 0) {
+			super.increaseRotation(0, -TURN_SPEED * delta * 1f,  0);
+		} else if(cameraAngleAroundPlayer > 0 && currentSpeed > 0) {
+			super.increaseRotation(0, TURN_SPEED * delta * 1f,  0);
+		}
 		
 		float distance = currentSpeed * delta;
 		float lateralDistance = lateralSpeed * delta;
@@ -42,6 +50,7 @@ public class Player extends Entity{
 		float dx = (float) (distance * Math.sin(Math.toRadians(super.getRotY())) + (lateralDistance * Math.cos(Math.toRadians(super.getRotY()))));
 		float dz = (float) (distance * Math.cos(Math.toRadians(super.getRotY())) + (lateralDistance * Math.sin(Math.toRadians(super.getRotY()))));
 		super.increasePosition(dx, 0, dz);
+		
 		
 		upwardSpeed -= GRAVITY * delta;
 		super.increasePosition(0, upwardSpeed * delta, 0);

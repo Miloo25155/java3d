@@ -34,4 +34,14 @@ public class Maths {
 		return source + f * (target-source);
 	}
 	
+	public static float Clamp(float source, float min, float max) {
+		if(source < min) {
+			return min;
+		} else if(source > max) {
+			return max;
+		} else {
+			return source;
+		}
+	}
+	
 }
